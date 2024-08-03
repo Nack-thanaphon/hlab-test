@@ -2,41 +2,12 @@
 	"info": {
 		"_postman_id": "091b256d-5208-432e-85a9-a73d59009490",
 		"name": "Hlab",
-		"description": "**Base URL:** http://your-api-base-url\n\n**OAuth**\n\n• **GET /login**\n\n• **คำอธิบาย:** จุดเชื่อมต่อสำหรับการเข้าสู่ระบบผู้ใช้\n\n• **การตอบกลับ:** ส่งคืนโทเค็นการตรวจสอบสิทธิ์\n\n**HealthCheck**\n\n• **GET /health-check**\n\n• **คำอธิบาย:** ตรวจสอบสถานะความสมบูรณ์ของ API\n\n• **การตอบกลับ:** ส่งคืนสถานะของ API\n\n**Products**\n\n• **POST /create-product**\n\n• **คำอธิบาย:** สร้างผลิตภัณฑ์ใหม่\n\n• **การตอบกลับ:** ส่งคืนรายละเอียดของผลิตภัณฑ์ที่สร้าง\n\n• **GET /get-products**\n\n• **คำอธิบาย:** ดึงรายการผลิตภัณฑ์\n\n• **การตอบกลับ:** ส่งคืนอาร์เรย์ของผลิตภัณฑ์\n\n**ProductsLang**\n\n• **PUT /update-products-lang**\n\n• **คำอธิบาย:** อัปเดตภาษาของผลิตภัณฑ์\n\n• **การตอบกลับ:** ส่งคืนรายละเอียดของผลิตภัณฑ์ที่อัปเดตแล้ว",
+		"description": "**Base URL:** [http://your-api-base-url](http://your-api-base-url)\n\n<u><b>OAuth</b></u>\n\n• **GET /login**\n\n• **คำอธิบาย:** จุดเชื่อมต่อสำหรับการเข้าสู่ระบบผู้ใช้\n\n• **การตอบกลับ:** ส่งคืนโทเค็นการตรวจสอบสิทธิ์\n\n<u><b>HealthCheck</b></u>\n\n• **GET /health-check**\n\n• **คำอธิบาย:** ตรวจสอบสถานะความสมบูรณ์ของ API\n\n• **การตอบกลับ:** ส่งคืนสถานะของ API\n\n<u><b>Products</b></u>\n\n• **POST /create-product**\n\n• **คำอธิบาย:** สร้างผลิตภัณฑ์ใหม่\n\n• **การตอบกลับ:** ส่งคืนรายละเอียดของผลิตภัณฑ์ที่สร้าง\n\n• **GET /get-products**\n\n• **คำอธิบาย:** ดึงรายการผลิตภัณฑ์\n\n• **การตอบกลับ:** ส่งคืนอาร์เรย์ของผลิตภัณฑ์\n\n<u><b>ProductsLang</b></u>\n\n• **PUT /update-products-lang**\n\n• **คำอธิบาย:** อัปเดตภาษาของผลิตภัณฑ์\n\n• **การตอบกลับ:** ส่งคืนรายละเอียดของผลิตภัณฑ์ที่อัปเดตแล้ว",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "17861619",
 		"_collection_link": "https://restless-firefly-378967.postman.co/workspace/freelance~b325365b-ac9d-4110-ab32-cd67e741aa91/collection/17861619-091b256d-5208-432e-85a9-a73d59009490?action=share&source=collection_link&creator=17861619"
 	},
 	"item": [
-		{
-			"name": "🟢 Oauth",
-			"item": [
-				{
-					"name": "login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"ต้องแสดงผลกลับด้วย accesstoken\", () => {",
-									"    const response = pm.response.json()",
-									"    pm.collectionVariables.set('accesstoken', response.token)",
-									"})"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "{{baseUrl}}/login"
-					},
-					"response": []
-				}
-			]
-		},
 		{
 			"name": "🟢 HealthCheck",
 			"item": [
@@ -60,7 +31,46 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{baseUrl}}/login"
+						"url": "{{baseUrl}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🟢 Oauth",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"ต้องแสดงผลกลับด้วย accesstoken\", () => {",
+									"    const response = pm.response.json()",
+									"    pm.expect(response.accessToken).to.be.not.null",
+									"    pm.collectionVariables.set('accesstoken', response.accessToken)",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"hlab-test@mail.com\",\n    \"password\": \"hlab-test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/auth/login"
 					},
 					"response": []
 				}
@@ -71,19 +81,38 @@
 			"item": [
 				{
 					"name": "create-product",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept-Language",
-								"value": "th",
-								"description": "th,en,jpan",
-								"type": "text"
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"ต้องได้รับ products_code\", () => {",
+									"    const response = pm.response.json()",
+									"",
+									"    if (response.data.products_code) {",
+									"        pm.collectionVariables.set('products_code', response.data.products_code)",
+									"    }",
+									"    pm.expect(response.data.products_code).to.be.a('string');",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
-						],
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accesstoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"product_id\": 1,\n    \"name\": \"Sample Product\"\n}",
+							"raw": "{\n    \"products_code\": \"P577449s9\",\n    \"description\": \"new Product\",\n    \"price\": 11111,\n    \"type_id\": 1,\n    \"product_content\": [\n        {\n            \"lang_id\": 1,\n            \"type\": \"title\",\n            \"text\": \"กระเป้าเดินทาง\"\n        },\n        {\n            \"lang_id\": 1,\n            \"type\": \"description\",\n            \"text\": \"スーツケース\"\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -97,17 +126,230 @@
 							"name": "create-product",
 							"originalRequest": {
 								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"products_code\": \"P577449s9\",\n    \"description\": \"new Product\",\n    \"price\": 11111,\n    \"type_id\": 1,\n    \"product_content\": [\n        {\n            \"lang_id\": 1,\n            \"type\": \"title\",\n            \"text\": \"กระเป้าเดินทาง\"\n        },\n        {\n            \"lang_id\": 1,\n            \"type\": \"description\",\n            \"text\": \"スーツケース\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{baseUrl}}/products/create"
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "update-products-content Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"ต้องแสดง status == 200\", () => {",
+									"    const response = pm.response.json()",
+									"    pm.expect(response.status).to.be(200)",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accesstoken}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{lang}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"jp\",\n    \"text\": \"スーツケース\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products-content/update?product_code={{products_code}}&page&filter&search",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products-content",
+								"update"
+							],
+							"query": [
+								{
+									"key": "product_code",
+									"value": "{{products_code}}"
+								},
+								{
+									"key": "page",
+									"value": null
+								},
+								{
+									"key": "filter",
+									"value": null
+								},
+								{
+									"key": "search",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"ต้องแสดง status == 200\", () => {",
+									"    const response = pm.response.json()",
+									"    pm.expect(response.status).to.be(200)",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accesstoken}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{lang}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/products/:product_code",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								":product_code"
+							],
+							"variable": [
+								{
+									"key": "product_code",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🟢 ProductsContent",
+			"item": [
+				{
+					"name": "update-products-content",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"ต้องแสดง status == 200\", () => {",
+									"    const response = pm.response.json()",
+									"    pm.expect(response.status).to.be(200)",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{accesstoken}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{lang}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"lang\": 1,\n    \"type\": \"title\",\n    \"text\": \"スーツケース\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products-content/update/:product_code",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products-content",
+								"update",
+								":product_code"
+							],
+							"variable": [
+								{
+									"key": "product_code",
+									"value": "{{products_code}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "update-products-content",
+							"originalRequest": {
+								"method": "PATCH",
 								"header": [
 									{
 										"key": "Accept-Language",
-										"value": "th",
-										"description": "th,en,jpan",
+										"value": "{{lang}}",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "",
+									"raw": "{\n    \"lang\": 1,\n    \"type\": \"title\",\n    \"text\": \"スーツケース\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -115,26 +357,19 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/products/search?page=1&search&filter",
+									"raw": "{{baseUrl}}/products-content/update/:product_code",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"products",
-										"search"
+										"products-content",
+										"update",
+										":product_code"
 									],
-									"query": [
+									"variable": [
 										{
-											"key": "page",
-											"value": "1"
-										},
-										{
-											"key": "search",
-											"value": null
-										},
-										{
-											"key": "filter",
-											"value": null
+											"key": "product_code",
+											"value": "{{products_code}}"
 										}
 									]
 								}
@@ -145,87 +380,6 @@
 							"body": null
 						}
 					]
-				},
-				{
-					"name": "get-products",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept-Language",
-								"value": "{{lang}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/products/search?page=1&search&filter",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"products",
-								"search"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "search",
-									"value": null
-								},
-								{
-									"key": "filter",
-									"value": null
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "🟢 ProductsLang",
-			"item": [
-				{
-					"name": "update-products-lang",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept-Language",
-								"value": "{{lang}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/products/search?page=1&search&filter",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"products",
-								"search"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "search",
-									"value": null
-								},
-								{
-									"key": "filter",
-									"value": null
-								}
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		}
@@ -262,6 +416,15 @@
 			"key": "accesstoken",
 			"value": "",
 			"type": "string"
+		},
+		{
+			"key": "product_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "products_code",
+			"value": ""
 		}
 	]
 }

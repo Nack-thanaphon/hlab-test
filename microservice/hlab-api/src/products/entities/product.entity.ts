@@ -1,27 +1,27 @@
-import { Entity,PrimaryGeneratedColumn,Column,ManyToOne,CreateDateColumn,UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-
-@Entity()
+@Entity({ name: 'products' })
 export class Products {
     @PrimaryGeneratedColumn()
     id: number;
 
 
-    @Column()
-    name: string;
+    @Column({ type: 'text', nullable: true })
+    products_code: string;
+
+    @Column({ type: 'text', nullable: true })
+    description: string;
+
+    @Column({ type: 'numeric' })
+    price: number;
 
     @Column()
-    lang: number;
+    type_id: number;
 
-    @Column()
-    createdBy: number;
 
-    @Column()
-    updatedBy: number;
+    @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    created_at: Date;
 
-    @CreateDateColumn()
-    createdAt: Date;
-
-    @UpdateDateColumn()
-    updatedAt: Date;
+    @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    updated_at: Date;
 }

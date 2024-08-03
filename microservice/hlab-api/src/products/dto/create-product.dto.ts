@@ -1,10 +1,33 @@
-import { IsString, IsInt, IsNotEmpty, IsDate } from 'class-validator';
+import {
+  IsString,IsNotEmpty,IsNumber,IsOptional,IsArray,ValidateNested
+} from 'class-validator';
+
+
+class ProductContentDto {
+  @IsNumber()
+  lang_id: number;
+
+  @IsString()
+  type: string;
+
+  @IsString()
+  text: string;
+}
 
 export class CreateProductDto {
   @IsString()
-  @IsNotEmpty()
-  name: string;
+  products_code: string;
 
-  @IsInt()
-  lang: number;
+  @IsString()
+  description: string;
+
+  @IsNumber()
+  price: number;
+
+  @IsNumber()
+  type_id: number;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  product_content: ProductContentDto[];
 }

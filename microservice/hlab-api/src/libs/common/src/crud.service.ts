@@ -5,14 +5,14 @@ import {
   FindOneOptions,
   Repository,
 } from 'typeorm';
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException,Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as dayjs from 'dayjs';
 
 // Define a generic abstract class for CRUD operations
 @Injectable()
 export abstract class CrudService<T> {
-  constructor(private readonly repository: Repository<T>) {}
+  constructor(private readonly repository: Repository<T>) { }
 
   async findAll(options?: FindManyOptions<T>): Promise<T[]> {
     return await this.repository.find(options);
@@ -24,19 +24,19 @@ export abstract class CrudService<T> {
 
   async create(entity: DeepPartial<T>): Promise<T> {
     const dateNow: string = dayjs().utcOffset(7).format('YYYY-MM-DD HH:mm:ss');
-    (entity as any).created = dateNow;
-    (entity as any).modified = dateNow;
+    (entity as any).created_at = dateNow;
+    (entity as any).updated_at = dateNow;
     const createdEntity = this.repository.create(entity);
     return await this.repository.save(createdEntity);
   }
 
-  async update(id: number, entity: DeepPartial<T>): Promise<T> {
+  async update(id: number,entity: DeepPartial<T>): Promise<T> {
     try {
       const data = await this.repository.findOneById(id);
       const dateNow: string = dayjs()
         .utcOffset(7)
         .format('YYYY-MM-DD HH:mm:ss');
-      (entity as any).modified = dateNow;
+      (entity as any).updated_at = dateNow;
       if (!data) {
         throw new HttpException(
           {

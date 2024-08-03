@@ -1,26 +1,30 @@
-import { Controller,Get,Post,Body,Patch,Param,Delete,Query,Headers,UsePipes,ValidationPipe } from '@nestjs/common';
+import { Body,Controller,Get,Headers,Post,Query,UsePipes,ValidationPipe } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
-import { Public } from 'src/decorators/public.decorator';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) { }
 
-  @Public()
   @Post('create')
   @UsePipes(new ValidationPipe({ transform: true }))
-  create(@Body() createProductDto: CreateProductDto) {
+  async create(
+    @Body() createProductDto: CreateProductDto): Promise<any> {
     try {
-      const product = this.productsService.create(createProductDto);
-
-      return {
-        data: createProductDto // or product if using a service
-      };
+      const product = await this.productsService.createProducts(createProductDto);
+      if (product && typeof product !== 'string') {
+        return {
+          status: 200,
+          message: product.message,
+          data: product.data,
+        };
+      }
     } catch (err) {
+      console.log(err);
       return {
-        error: err.message
+        status: 404,
+        message: 'เกิดข้อผิดพลาด',
+        data: [],
       };
     }
   }
@@ -28,21 +32,19 @@ export class ProductsController {
   @Get()
   findAll(
     @Headers('accept-language') lang: string,
-    @Query('products_id') products_id: number,
+    @Query('product_code') product_id: number,
     @Query('page') page: number,
     @Query('filter') filter: string,
     @Query('search') search: string,
   ) {
-
     try {
       return {
-        data: ''
-      }
+        data: '',
+      };
     } catch (err) {
       return {
-        error: err.message
-      }
+        error: err.message,
+      };
     }
   }
-
 }

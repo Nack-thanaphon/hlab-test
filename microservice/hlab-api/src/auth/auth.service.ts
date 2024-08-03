@@ -4,39 +4,40 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { LoginUserDto,User } from 'src/users/entities/user.entity';
-import { UserService } from 'src/users/users.service';
+
 import * as bcrypt from 'bcryptjs';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly userService: UserService,
     private readonly jwtService: JwtService,
   ) { }
 
-  async login(loginUserDto: LoginUserDto): Promise<{
+  async login(loginUserDto: {
+    email: string;
+    password: string
+  }): Promise<{
     id: number;
     email: string;
     fullname: string;
-    role: string;
-    permission: any
     accessToken: string;
   }> {
-    const user = await this.userService.findByEmail(loginUserDto.email);
+
+    const user = {
+      id: 1,
+      email: 'hlab-test@mail.com',
+      password: '$2a$10$g4IVLq0b1XJj.iPlDW0ma.Ll/Sp6c59Hgh90pDfTCMtHnkT7fAEvi',
+      first_name: "ธนพล",
+      last_name: "กัลปพฤกษ์"
+    };
 
     if (user && (await bcrypt.compare(loginUserDto.password,user.password))) {
       const payload = { email: user.email,sub: 2 };
-      const permission = JSON.parse(user.permission);
-      const permissionId = Array.isArray(permission) ? permission.sort((a,b) => a - b) : [];
 
       return {
         id: user.id,
         email: user.email,
         fullname: user.first_name + ' ' + user.last_name,
-        role: user.role_name.name,
-        permission: permissionId[0],
         accessToken: this.jwtService.sign(payload),
       };
     } else {

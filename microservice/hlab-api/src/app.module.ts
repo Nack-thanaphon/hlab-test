@@ -7,6 +7,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD,APP_INTERCEPTOR } from '@nestjs/core';
 import { ProductsModule } from './products/products.module';
 import { AuthGuard } from './guards/jwt-auth.guard';
+import { AuthModule } from './auth/auth.module';
+import { ProductsTypeModule } from './products-type/products-type.module';
+import { ProductsLangModule } from './products-lang/products-lang.module';
+import { ProductsContentModule } from './products-content/products-content.module';
 
 
 @Module({
@@ -32,7 +36,11 @@ import { AuthGuard } from './guards/jwt-auth.guard';
       entities: ['dist/**/*.entity.js'],
       autoLoadEntities: true,
     }),
-    ProductsModule
+    ProductsModule,
+    AuthModule,
+    ProductsTypeModule,
+    ProductsLangModule,
+    ProductsContentModule
   ],
   controllers: [AppController],
   providers: [

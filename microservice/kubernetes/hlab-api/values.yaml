@@ -22,6 +22,8 @@ secretMap:
     HLAB_POSTGRES_PASSWORD: "MTIzNDU2"
     HLAB_POSTGRES_USER: hlab-db
     HLAB_POSTGRES_DB: hlab-db
+    JWT_SECRET: dca055d7bbeba4ee7435c956ac4d49f0d9fa90d8bab83deaebcc7e07a8c1f58c
+
 
 hpa:
   minReplicas: 2
