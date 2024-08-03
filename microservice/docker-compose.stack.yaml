@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:16
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=hlab-db
+      - POSTGRES_PASSWORD=${HLAB_POSTGRES_PASSWORD}
+      - POSTGRES_DB=hlab-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+networks:
+  default:
+    name: hlab-network
+volumes:
+  postgres:
+    name: hlab-postgres
+

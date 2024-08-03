@@ -1,0 +1,14 @@
+{
+    products:id,
+    name: 'product',
+    detail: 'detail',
+    created_at: 'created_at',
+    lang :{
+        name:'en'
+        data:{
+            'id':1
+            'topic'
+            'detail'
+        }
+    }
+}

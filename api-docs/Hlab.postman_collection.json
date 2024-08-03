@@ -1,0 +1,267 @@
+{
+	"info": {
+		"_postman_id": "091b256d-5208-432e-85a9-a73d59009490",
+		"name": "Hlab",
+		"description": "**Base URL:** http://your-api-base-url\n\n**OAuth**\n\n• **GET /login**\n\n• **คำอธิบาย:** จุดเชื่อมต่อสำหรับการเข้าสู่ระบบผู้ใช้\n\n• **การตอบกลับ:** ส่งคืนโทเค็นการตรวจสอบสิทธิ์\n\n**HealthCheck**\n\n• **GET /health-check**\n\n• **คำอธิบาย:** ตรวจสอบสถานะความสมบูรณ์ของ API\n\n• **การตอบกลับ:** ส่งคืนสถานะของ API\n\n**Products**\n\n• **POST /create-product**\n\n• **คำอธิบาย:** สร้างผลิตภัณฑ์ใหม่\n\n• **การตอบกลับ:** ส่งคืนรายละเอียดของผลิตภัณฑ์ที่สร้าง\n\n• **GET /get-products**\n\n• **คำอธิบาย:** ดึงรายการผลิตภัณฑ์\n\n• **การตอบกลับ:** ส่งคืนอาร์เรย์ของผลิตภัณฑ์\n\n**ProductsLang**\n\n• **PUT /update-products-lang**\n\n• **คำอธิบาย:** อัปเดตภาษาของผลิตภัณฑ์\n\n• **การตอบกลับ:** ส่งคืนรายละเอียดของผลิตภัณฑ์ที่อัปเดตแล้ว",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "17861619",
+		"_collection_link": "https://restless-firefly-378967.postman.co/workspace/freelance~b325365b-ac9d-4110-ab32-cd67e741aa91/collection/17861619-091b256d-5208-432e-85a9-a73d59009490?action=share&source=collection_link&creator=17861619"
+	},
+	"item": [
+		{
+			"name": "🟢 Oauth",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"ต้องแสดงผลกลับด้วย accesstoken\", () => {",
+									"    const response = pm.response.json()",
+									"    pm.collectionVariables.set('accesstoken', response.token)",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/login"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🟢 HealthCheck",
+			"item": [
+				{
+					"name": "health-check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"ต้องแสดงผลกลับด้วย accesstoken\", () => {",
+									"    const response = pm.response.json()",
+									"    pm.collectionVariables.set('accesstoken', response.token)",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/login"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🟢 Products",
+			"item": [
+				{
+					"name": "create-product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "th",
+								"description": "th,en,jpan",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_id\": 1,\n    \"name\": \"Sample Product\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/products/create"
+					},
+					"response": [
+						{
+							"name": "create-product",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept-Language",
+										"value": "th",
+										"description": "th,en,jpan",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/search?page=1&search&filter",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"search"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "search",
+											"value": null
+										},
+										{
+											"key": "filter",
+											"value": null
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "get-products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{lang}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/products/search?page=1&search&filter",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"search"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "search",
+									"value": null
+								},
+								{
+									"key": "filter",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🟢 ProductsLang",
+			"item": [
+				{
+					"name": "update-products-lang",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{lang}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/products/search?page=1&search&filter",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"search"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "search",
+									"value": null
+								},
+								{
+									"key": "filter",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "accesstoken",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

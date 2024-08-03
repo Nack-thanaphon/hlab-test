@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  hlab-api:
+    build:
+      context: ./hlab-api
+      target: development
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+    develop:
+      watch:
+        - action: rebuild
+          path: ./hlab-api/package.json
+    volumes:
+      - ./hlab-api/src/:/home/node/app/src
+    restart: always
+
+networks:
+  default:
+    name: hlab-network
+    external: true

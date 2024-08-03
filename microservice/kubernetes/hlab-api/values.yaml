@@ -1,0 +1,40 @@
+replicaCount: 1
+
+image:
+  repository: https://hub.docker.com/devnack/hlab-api
+  pullPolicy: Always
+  tag: 'latest'
+
+ingress:
+  path: /api/v1
+  pathType: Prefix
+  bodySize: '100m'
+
+deploymentConfig:
+  containerPort: 3000
+
+configMap:
+  HLAB_PORT: 3000
+  NODE_ENV: development
+
+secretMap:
+    HLAB_POSTGRES_HOST: localhost
+    HLAB_POSTGRES_PASSWORD: "MTIzNDU2"
+    HLAB_POSTGRES_USER: hlab-db
+    HLAB_POSTGRES_DB: hlab-db
+
+hpa:
+  minReplicas: 2
+  maxReplicas: 12
+  targetCPUUtilizationPercentage: 70
+
+postgresql:
+  Username: hlab-db
+  Password: "MTIzNDU2"
+  Database: hlab-db
+  type: ClusterIP
+  service:
+    port: 5432
+  image:
+    repository: postgres
+    tag: latest
