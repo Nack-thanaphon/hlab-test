@@ -1,0 +1,5 @@
+# Ignore values.yaml
+values.yaml
+
+# Ignore hlab-api-1.0.0.tgz
+hlab-api-1.0.0.tgz
